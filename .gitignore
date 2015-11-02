@@ -39,11 +39,13 @@ stamp-h1
 *.i*86
 *.x86_64
 *.hex
+configure
+/test
 
 # Debug files
 *.dSYM/
 
 
 # other
-.deps #makefile temps
+**/.deps/*
 r*hs #vtune output
