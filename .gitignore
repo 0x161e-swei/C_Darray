@@ -4,6 +4,18 @@
 *.obj
 *.elf
 
+# Autotools
+
+Makefile.in
+
+/autom4te.cache
+/build_aux
+aclocal.m4
+config.status
+config.log
+stamp-h1
+.dirstamp
+
 # Precompiled Headers
 *.gch
 *.pch
@@ -30,3 +42,8 @@
 
 # Debug files
 *.dSYM/
+
+
+# other
+.deps #makefile temps
+r*hs #vtune output
