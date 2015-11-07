@@ -197,7 +197,7 @@ am__distuninstallcheck_listfiles = $(distuninstallcheck_listfiles) \
 distcleancheck_listfiles = find . -type f -print
 ACLOCAL = ${SHELL} /home/skar/rum/C_Darray/build_aux/missing aclocal-1.14
 AMTAR = $${TAR-tar}
-AM_DEFAULT_VERBOSITY = 0
+AM_DEFAULT_VERBOSITY = 1
 AUTOCONF = ${SHELL} /home/skar/rum/C_Darray/build_aux/missing autoconf
 AUTOHEADER = ${SHELL} /home/skar/rum/C_Darray/build_aux/missing autoheader
 AUTOMAKE = ${SHELL} /home/skar/rum/C_Darray/build_aux/missing automake-1.14
@@ -286,7 +286,7 @@ top_srcdir = .
 SRCDIR = src
 INCDIR = include
 AM_CFLAGS = -std=c99 -g -ggdb3 -Wall -Wextra -pedantic -pthread -O$(O)
-AM_CPPFLAGS = -I$(INCDIR)
+AM_CPPFLAGS = -I$(INCDIR) -DDEBUG
 noinst_LIBRARIES = libdarray.a
 libdarray_a_SOURCES = src/darray.c
 libdarray_a_CFLAGS = $(AM_CFLAGS)
@@ -830,7 +830,7 @@ uninstall-am: uninstall-binPROGRAMS
 	uninstall-am uninstall-binPROGRAMS
 
 
-O ?= 3
+O ?= 0
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

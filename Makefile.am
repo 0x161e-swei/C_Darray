@@ -5,9 +5,9 @@ bin_PROGRAMS = test
 SRCDIR = src
 INCDIR = include
 
-O ?= 3
+O ?= 0
 AM_CFLAGS = -std=c99 -g -ggdb3 -Wall -Wextra -pedantic -pthread -O$(O)
-AM_CPPFLAGS = -I$(INCDIR)
+AM_CPPFLAGS = -I$(INCDIR) -DDEBUG
 
 noinst_LIBRARIES = libdarray.a
 

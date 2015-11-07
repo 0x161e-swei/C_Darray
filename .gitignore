@@ -48,4 +48,7 @@ configure
 
 # other
 **/.deps/*
-r*hs #vtune output
+#vtune output
+r*hs 
+# perf outputs
+perf*

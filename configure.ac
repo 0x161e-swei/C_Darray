@@ -6,7 +6,7 @@ AC_INIT([C_Darray], [0.1.0], [shijiawei@g.harvard.edu])
 
 AC_CONFIG_AUX_DIR([build_aux])
 AM_INIT_AUTOMAKE([subdir-objects foreign])
-AM_SILENT_RULES([yes])
+#AM_SILENT_RULES([yes])
 AC_CONFIG_SRCDIR([src/darray.c])
 AC_CONFIG_HEADERS([include/config.h])
 
@@ -14,6 +14,10 @@ AC_CONFIG_HEADERS([include/config.h])
 # Checks for programs.
 AC_PROG_CC
 AC_PROG_RANLIB
+
+
+AC_DEFINE([DEBUG])
+AH_TEMPLATE([DEBUG], [FOR DEBUG])
 
 # Checks for libraries.
 
