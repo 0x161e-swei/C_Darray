@@ -8,7 +8,7 @@
 // }
 
 int main(){
-	printf("hello world\nsize one %zu, size two %zu, %zu\n", sizeof(DArray), sizeof(DArray_INT), sizeof(DArray_SIZET));
+	// printf("hello world\nsize one %zu, size two %zu, %zu\n", sizeof(DArray), sizeof(DArray_INT), sizeof(DArray_SIZET));
 	
 	printf("%zu \n", sizeof(size_t));	
 
@@ -16,7 +16,7 @@ int main(){
 	DArray *arr_float = darray_create(1024, dtype);
 	
 	for (size_t i = 0; i < 10000000; i++) {
-		float v = 1.5 * i;
+		float v = i;
 		// darray_push(arr_float, v);
 		assert(NULL != arr_float);
 		assert(NULL != arr_float->content);

@@ -63,7 +63,7 @@ DArray *darray_create(size_t reserve_size, DataType dtype) {
 
 bool _darray_reserve(DArray *arr, size_t n) {
 	check(n > arr->capacity, "reserved size smaller than capacity");
-	size_t size = 1024;
+	size_t size = 4096;
 	while (size < n) size <<= 1;
 	void *tmp_ptr = realloc(arr->content, size * arr->element_size);
 	check(NULL != tmp_ptr, "Out of memory");
@@ -78,15 +78,15 @@ bool _darray_reserve(DArray *arr, size_t n) {
 
 bool _darray_expand(DArray *arr)
 {
-	if (arr->length + 1 > arr->capacity) {
+	// if (arr->length + 1 > arr->capacity) {
 		void *ptr = NULL;
-		size_t n = (arr->capacity == 0)? 1024: (arr->capacity) << 1;
+		size_t n = (arr->capacity) << 2;
 		ptr = realloc(arr->content, n * arr->element_size);
 		check(NULL != ptr, "Out of memory");
-		printf("expand from %zu to %zu \n", arr->length, n);
+		// printf("expand from %zu to %zu \n", arr->length, n);
 		arr->content = ptr;
 		arr->capacity = n;
-	}
+	// }
 	return true;
 
 	error:
@@ -96,7 +96,8 @@ bool _darray_expand(DArray *arr)
 bool _darray_destory(DArray *arr) {
 	check(NULL != arr && NULL != arr->content, "Attemp to free invaild mem!");
 	free(arr->content);
-	memset(arr, 0, sizeof(DArray));
+	free(arr);
+	// memset(arr, 0, sizeof(DArray));
 	return true;
 
 	error:
@@ -118,4 +119,9 @@ void darray_swap(DArray *arr, size_t idx1, size_t idx2) {
 		vl++;
 		vr++;
 	}
+}
+
+void _darray_vec_push(DArray *arr, const void * src, size_t n) {
+	memcpy((char *)arr->content + arr->element_size * arr->length, src, n * arr->element_size);
+	arr->length += n;
 }

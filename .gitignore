@@ -40,7 +40,8 @@ stamp-h1
 *.x86_64
 *.hex
 configure
-/test
+/test_int
+/test_float
 
 # Debug files
 *.dSYM/

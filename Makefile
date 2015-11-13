@@ -79,7 +79,7 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
-bin_PROGRAMS = test$(EXEEXT)
+bin_PROGRAMS = test_float$(EXEEXT) test_int$(EXEEXT)
 subdir = .
 DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
 	$(top_srcdir)/configure $(am__configure_deps) \
@@ -113,11 +113,16 @@ am_libdarray_a_OBJECTS = src/libdarray_a-darray.$(OBJEXT)
 libdarray_a_OBJECTS = $(am_libdarray_a_OBJECTS)
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
-am_test_OBJECTS = src/test/test-test.$(OBJEXT)
-test_OBJECTS = $(am_test_OBJECTS)
-test_DEPENDENCIES = libdarray.a
-test_LINK = $(CCLD) $(test_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) \
-	-o $@
+am_test_float_OBJECTS = src/test/test_float-test_float.$(OBJEXT)
+test_float_OBJECTS = $(am_test_float_OBJECTS)
+test_float_DEPENDENCIES = libdarray.a
+test_float_LINK = $(CCLD) $(test_float_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) \
+	$(LDFLAGS) -o $@
+am_test_int_OBJECTS = src/test/test_int-test_int.$(OBJEXT)
+test_int_OBJECTS = $(am_test_int_OBJECTS)
+test_int_DEPENDENCIES = libdarray.a
+test_int_LINK = $(CCLD) $(test_int_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) \
+	$(LDFLAGS) -o $@
 AM_V_P = $(am__v_P_$(V))
 am__v_P_ = $(am__v_P_$(AM_DEFAULT_VERBOSITY))
 am__v_P_0 = false
@@ -150,8 +155,10 @@ AM_V_CCLD = $(am__v_CCLD_$(V))
 am__v_CCLD_ = $(am__v_CCLD_$(AM_DEFAULT_VERBOSITY))
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
-SOURCES = $(libdarray_a_SOURCES) $(test_SOURCES)
-DIST_SOURCES = $(libdarray_a_SOURCES) $(test_SOURCES)
+SOURCES = $(libdarray_a_SOURCES) $(test_float_SOURCES) \
+	$(test_int_SOURCES)
+DIST_SOURCES = $(libdarray_a_SOURCES) $(test_float_SOURCES) \
+	$(test_int_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -285,16 +292,20 @@ top_builddir = .
 top_srcdir = .
 SRCDIR = src
 INCDIR = include
-AM_CFLAGS = -std=c99 -g -ggdb3 -Wall -Wextra -pedantic -pthread -O$(O)
+AM_CFLAGS = -std=c99 -g -fno-omit-frame-pointer -ggdb3 -Wall -Wextra -pedantic -pthread -O$(O)
 AM_CPPFLAGS = -I$(INCDIR) -DDEBUG
 noinst_LIBRARIES = libdarray.a
 libdarray_a_SOURCES = src/darray.c
 libdarray_a_CFLAGS = $(AM_CFLAGS)
 libdarray_a_CPPFLAGS = $(AM_CPPFLAGS)
-test_SOURCES = src/test/test.c
-test_CFLAGS = $(AM_CFLAGS)
-test_LDADD = libdarray.a
-test_CPPFLAGS = $(AM_CPPFLAGS)
+test_float_SOURCES = src/test/test_float.c
+test_float_CFLAGS = $(AM_CFLAGS)
+test_float_LDADD = libdarray.a
+test_float_CPPFLAGS = $(AM_CPPFLAGS)
+test_int_SOURCES = src/test/test_int.c
+test_int_CFLAGS = $(AM_CFLAGS)
+test_int_LDADD = libdarray.a
+test_int_CPPFLAGS = $(AM_CPPFLAGS)
 all: all-am
 
 .SUFFIXES:
@@ -412,12 +423,18 @@ src/test/$(am__dirstamp):
 src/test/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) src/test/$(DEPDIR)
 	@: > src/test/$(DEPDIR)/$(am__dirstamp)
-src/test/test-test.$(OBJEXT): src/test/$(am__dirstamp) \
+src/test/test_float-test_float.$(OBJEXT): src/test/$(am__dirstamp) \
 	src/test/$(DEPDIR)/$(am__dirstamp)
 
-test$(EXEEXT): $(test_OBJECTS) $(test_DEPENDENCIES) $(EXTRA_test_DEPENDENCIES) 
-	@rm -f test$(EXEEXT)
-	$(AM_V_CCLD)$(test_LINK) $(test_OBJECTS) $(test_LDADD) $(LIBS)
+test_float$(EXEEXT): $(test_float_OBJECTS) $(test_float_DEPENDENCIES) $(EXTRA_test_float_DEPENDENCIES) 
+	@rm -f test_float$(EXEEXT)
+	$(AM_V_CCLD)$(test_float_LINK) $(test_float_OBJECTS) $(test_float_LDADD) $(LIBS)
+src/test/test_int-test_int.$(OBJEXT): src/test/$(am__dirstamp) \
+	src/test/$(DEPDIR)/$(am__dirstamp)
+
+test_int$(EXEEXT): $(test_int_OBJECTS) $(test_int_DEPENDENCIES) $(EXTRA_test_int_DEPENDENCIES) 
+	@rm -f test_int$(EXEEXT)
+	$(AM_V_CCLD)$(test_int_LINK) $(test_int_OBJECTS) $(test_int_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -428,7 +445,8 @@ distclean-compile:
 	-rm -f *.tab.c
 
 include src/$(DEPDIR)/libdarray_a-darray.Po
-include src/test/$(DEPDIR)/test-test.Po
+include src/test/$(DEPDIR)/test_float-test_float.Po
+include src/test/$(DEPDIR)/test_int-test_int.Po
 
 .c.o:
 	$(AM_V_CC)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\
@@ -460,19 +478,33 @@ src/libdarray_a-darray.obj: src/darray.c
 #	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
 #	$(AM_V_CC_no)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libdarray_a_CPPFLAGS) $(CPPFLAGS) $(libdarray_a_CFLAGS) $(CFLAGS) -c -o src/libdarray_a-darray.obj `if test -f 'src/darray.c'; then $(CYGPATH_W) 'src/darray.c'; else $(CYGPATH_W) '$(srcdir)/src/darray.c'; fi`
 
-src/test/test-test.o: src/test/test.c
-	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(test_CPPFLAGS) $(CPPFLAGS) $(test_CFLAGS) $(CFLAGS) -MT src/test/test-test.o -MD -MP -MF src/test/$(DEPDIR)/test-test.Tpo -c -o src/test/test-test.o `test -f 'src/test/test.c' || echo '$(srcdir)/'`src/test/test.c
-	$(AM_V_at)$(am__mv) src/test/$(DEPDIR)/test-test.Tpo src/test/$(DEPDIR)/test-test.Po
-#	$(AM_V_CC)source='src/test/test.c' object='src/test/test-test.o' libtool=no \
+src/test/test_float-test_float.o: src/test/test_float.c
+	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(test_float_CPPFLAGS) $(CPPFLAGS) $(test_float_CFLAGS) $(CFLAGS) -MT src/test/test_float-test_float.o -MD -MP -MF src/test/$(DEPDIR)/test_float-test_float.Tpo -c -o src/test/test_float-test_float.o `test -f 'src/test/test_float.c' || echo '$(srcdir)/'`src/test/test_float.c
+	$(AM_V_at)$(am__mv) src/test/$(DEPDIR)/test_float-test_float.Tpo src/test/$(DEPDIR)/test_float-test_float.Po
+#	$(AM_V_CC)source='src/test/test_float.c' object='src/test/test_float-test_float.o' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(AM_V_CC_no)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(test_CPPFLAGS) $(CPPFLAGS) $(test_CFLAGS) $(CFLAGS) -c -o src/test/test-test.o `test -f 'src/test/test.c' || echo '$(srcdir)/'`src/test/test.c
+#	$(AM_V_CC_no)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(test_float_CPPFLAGS) $(CPPFLAGS) $(test_float_CFLAGS) $(CFLAGS) -c -o src/test/test_float-test_float.o `test -f 'src/test/test_float.c' || echo '$(srcdir)/'`src/test/test_float.c
 
-src/test/test-test.obj: src/test/test.c
-	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(test_CPPFLAGS) $(CPPFLAGS) $(test_CFLAGS) $(CFLAGS) -MT src/test/test-test.obj -MD -MP -MF src/test/$(DEPDIR)/test-test.Tpo -c -o src/test/test-test.obj `if test -f 'src/test/test.c'; then $(CYGPATH_W) 'src/test/test.c'; else $(CYGPATH_W) '$(srcdir)/src/test/test.c'; fi`
-	$(AM_V_at)$(am__mv) src/test/$(DEPDIR)/test-test.Tpo src/test/$(DEPDIR)/test-test.Po
-#	$(AM_V_CC)source='src/test/test.c' object='src/test/test-test.obj' libtool=no \
+src/test/test_float-test_float.obj: src/test/test_float.c
+	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(test_float_CPPFLAGS) $(CPPFLAGS) $(test_float_CFLAGS) $(CFLAGS) -MT src/test/test_float-test_float.obj -MD -MP -MF src/test/$(DEPDIR)/test_float-test_float.Tpo -c -o src/test/test_float-test_float.obj `if test -f 'src/test/test_float.c'; then $(CYGPATH_W) 'src/test/test_float.c'; else $(CYGPATH_W) '$(srcdir)/src/test/test_float.c'; fi`
+	$(AM_V_at)$(am__mv) src/test/$(DEPDIR)/test_float-test_float.Tpo src/test/$(DEPDIR)/test_float-test_float.Po
+#	$(AM_V_CC)source='src/test/test_float.c' object='src/test/test_float-test_float.obj' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(AM_V_CC_no)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(test_CPPFLAGS) $(CPPFLAGS) $(test_CFLAGS) $(CFLAGS) -c -o src/test/test-test.obj `if test -f 'src/test/test.c'; then $(CYGPATH_W) 'src/test/test.c'; else $(CYGPATH_W) '$(srcdir)/src/test/test.c'; fi`
+#	$(AM_V_CC_no)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(test_float_CPPFLAGS) $(CPPFLAGS) $(test_float_CFLAGS) $(CFLAGS) -c -o src/test/test_float-test_float.obj `if test -f 'src/test/test_float.c'; then $(CYGPATH_W) 'src/test/test_float.c'; else $(CYGPATH_W) '$(srcdir)/src/test/test_float.c'; fi`
+
+src/test/test_int-test_int.o: src/test/test_int.c
+	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(test_int_CPPFLAGS) $(CPPFLAGS) $(test_int_CFLAGS) $(CFLAGS) -MT src/test/test_int-test_int.o -MD -MP -MF src/test/$(DEPDIR)/test_int-test_int.Tpo -c -o src/test/test_int-test_int.o `test -f 'src/test/test_int.c' || echo '$(srcdir)/'`src/test/test_int.c
+	$(AM_V_at)$(am__mv) src/test/$(DEPDIR)/test_int-test_int.Tpo src/test/$(DEPDIR)/test_int-test_int.Po
+#	$(AM_V_CC)source='src/test/test_int.c' object='src/test/test_int-test_int.o' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(AM_V_CC_no)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(test_int_CPPFLAGS) $(CPPFLAGS) $(test_int_CFLAGS) $(CFLAGS) -c -o src/test/test_int-test_int.o `test -f 'src/test/test_int.c' || echo '$(srcdir)/'`src/test/test_int.c
+
+src/test/test_int-test_int.obj: src/test/test_int.c
+	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(test_int_CPPFLAGS) $(CPPFLAGS) $(test_int_CFLAGS) $(CFLAGS) -MT src/test/test_int-test_int.obj -MD -MP -MF src/test/$(DEPDIR)/test_int-test_int.Tpo -c -o src/test/test_int-test_int.obj `if test -f 'src/test/test_int.c'; then $(CYGPATH_W) 'src/test/test_int.c'; else $(CYGPATH_W) '$(srcdir)/src/test/test_int.c'; fi`
+	$(AM_V_at)$(am__mv) src/test/$(DEPDIR)/test_int-test_int.Tpo src/test/$(DEPDIR)/test_int-test_int.Po
+#	$(AM_V_CC)source='src/test/test_int.c' object='src/test/test_int-test_int.obj' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(AM_V_CC_no)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(test_int_CPPFLAGS) $(CPPFLAGS) $(test_int_CFLAGS) $(CFLAGS) -c -o src/test/test_int-test_int.obj `if test -f 'src/test/test_int.c'; then $(CYGPATH_W) 'src/test/test_int.c'; else $(CYGPATH_W) '$(srcdir)/src/test/test_int.c'; fi`
 
 ID: $(am__tagged_files)
 	$(am__define_uniq_tagged_files); mkid -fID $$unique

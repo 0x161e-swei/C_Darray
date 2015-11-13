@@ -61,15 +61,28 @@
 		(data)->set((data), index, &(val)); \
 	} while(0)
 
+#define darray_expand(data) \
+	do { \
+		if ((data)->length + 1 > (data)->capacity) { \
+			_darray_expand(data); \
+		} \
+	} while(0)
+
 #define darray_push(data, val) \
 	do { \
-		_darray_assert(data); \
-		_darray_expand(data); \
+		/*_darray_assert(data);*/ \
+		darray_expand(data); \
 		(data)->set((data), (data->length), &(val)); \
 		((data)->length)++; \
 	} while(0)
 	
-	
+#define darray_vec_push(data, src, n) \
+	do { \
+		if ((data)->length + n > (data)->capacity) { \
+			_darray_expand(data); \
+		} \
+		_darray_vec_push(data, src, n); \
+	} while(0)
 
 #define darray_clear(data) \
 	data->length = 0;
@@ -117,6 +130,8 @@ bool _darray_reserve(DArray *arr, size_t n);
 bool _darray_expand(DArray *arr);
 
 bool _darray_destory(DArray *arr);
+
+void _darray_vec_push(DArray *arr, const void * src, size_t n);
 
 void darray_swap(DArray *arr, size_t idx1, size_t idx2);
 
@@ -168,6 +183,8 @@ static inline void _darray_get_content_double(DArray *self, size_t index, PDataT
 static inline void _darray_get_content_sizet(DArray *self, size_t index, PDataType *res) {
 	res->psizet = &(((DArray_SIZET *)self)->content[index]);
 }
+
+
 
 #endif /* _DARRAY_H_ */
 
