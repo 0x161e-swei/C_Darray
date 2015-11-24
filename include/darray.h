@@ -70,15 +70,16 @@
 
 #define darray_push(data, val) \
 	do { \
-		/*_darray_assert(data);*/ \
-		darray_expand(data); \
+		if ((data)->length + 1 > (data)->capacity) { \
+			_darray_expand(data); \
+		} \
 		(data)->set((data), (data->length), &(val)); \
 		((data)->length)++; \
 	} while(0)
 	
 #define darray_vec_push(data, src, n) \
 	do { \
-		if ((data)->length + n > (data)->capacity) { \
+		while ((data)->length + n > (data)->capacity) { \
 			_darray_expand(data); \
 		} \
 		_darray_vec_push(data, src, n); \
@@ -129,7 +130,7 @@ bool _darray_reserve(DArray *arr, size_t n);
 
 bool _darray_expand(DArray *arr);
 
-bool _darray_destory(DArray *arr);
+bool darray_destory(DArray *arr);
 
 void _darray_vec_push(DArray *arr, const void * src, size_t n);
 

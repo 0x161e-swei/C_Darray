@@ -42,6 +42,8 @@ stamp-h1
 configure
 /test_int
 /test_float
+!test_int.c
+!test_float.c
 
 # Debug files
 *.dSYM/

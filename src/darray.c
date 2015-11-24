@@ -63,7 +63,7 @@ DArray *darray_create(size_t reserve_size, DataType dtype) {
 
 bool _darray_reserve(DArray *arr, size_t n) {
 	check(n > arr->capacity, "reserved size smaller than capacity");
-	size_t size = 4096;
+	size_t size = 1024;
 	while (size < n) size <<= 1;
 	void *tmp_ptr = realloc(arr->content, size * arr->element_size);
 	check(NULL != tmp_ptr, "Out of memory");
@@ -80,7 +80,7 @@ bool _darray_expand(DArray *arr)
 {
 	// if (arr->length + 1 > arr->capacity) {
 		void *ptr = NULL;
-		size_t n = (arr->capacity) << 2;
+		size_t n = (arr->capacity) << 1;
 		ptr = realloc(arr->content, n * arr->element_size);
 		check(NULL != ptr, "Out of memory");
 		// printf("expand from %zu to %zu \n", arr->length, n);
@@ -93,7 +93,7 @@ bool _darray_expand(DArray *arr)
 	return false;
 }
 
-bool _darray_destory(DArray *arr) {
+bool darray_destory(DArray *arr) {
 	check(NULL != arr && NULL != arr->content, "Attemp to free invaild mem!");
 	free(arr->content);
 	free(arr);
@@ -111,7 +111,7 @@ void darray_swap(DArray *arr, size_t idx1, size_t idx2) {
 	unsigned char *vl, *vr, tmp;
 	size_t size_count = arr->element_size;
 	vl = ((unsigned char *)(arr->content) + idx1 * size_count);
-	vr = ((unsigned char	*)(arr->content) + idx2 * size_count);
+	vr = ((unsigned char *)(arr->content) + idx2 * size_count);
 	while (size_count--) {
 		tmp = *vl;
 		*vl = *vr;
@@ -122,6 +122,12 @@ void darray_swap(DArray *arr, size_t idx1, size_t idx2) {
 }
 
 void _darray_vec_push(DArray *arr, const void * src, size_t n) {
-	memcpy((char *)arr->content + arr->element_size * arr->length, src, n * arr->element_size);
+	// size_t i = arr->length, j = 0;
+	// for (; i < arr->length + n * arr->element_size; i++, j++) {
+	// 	*((char *)arr->content + i) = *((char *)src + j);
+	// }
+	memcpy((char *)arr->content + arr->element_size * arr->length, 
+		src, 
+		n * arr->element_size);
 	arr->length += n;
 }
