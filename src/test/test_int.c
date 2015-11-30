@@ -102,7 +102,7 @@ int main(){
 			darray_destory(arr_int);
 		}	
 		printf("set %lf\n", (double) sum / CLOCKS_PER_SEC);
-		
+		/*
 		arr_int = darray_create(1024, dtype);
 		darray_foo_set_vec();
 		sum = 0;
@@ -113,6 +113,7 @@ int main(){
 			sum += end - start;
 		}
 		printf("get %lf\n", (double) sum / CLOCKS_PER_SEC);
+		*/
 	}
 	else if (vec_size == 0 ){
 		src = malloc(sizeof(int));
@@ -126,7 +127,7 @@ int main(){
 			darray_destory(arr_int);
 		}
 		printf("set %lf\n", (double) sum / CLOCKS_PER_SEC);
-
+		/*
 		arr_int = darray_create(1024, dtype);
 		darray_foo_set();
 		sum = 0;
@@ -137,6 +138,7 @@ int main(){
 			sum += end - start;
 		}
 		printf("get %lf\n", (double) sum / CLOCKS_PER_SEC);
+		*/
 	}
 	/*else if (vec_size == -1) {
 		src = malloc(sizeof(int));
@@ -171,7 +173,7 @@ int main(){
 			sum += end - start;
 		}	
 		printf("set %lf\n", (double) sum / CLOCKS_PER_SEC);
-		
+		/*
 		sum = 0;
 		for (size_t i = 0; i < 1000; i++){
 			start = clock();	
@@ -180,6 +182,7 @@ int main(){
 			sum += end - start;
 		}
 		printf("get %lf\n", (double) sum / CLOCKS_PER_SEC);
+		*/
 	}
 	
 	
