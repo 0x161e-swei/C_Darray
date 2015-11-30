@@ -7,7 +7,7 @@
 # Autotools
 
 Makefile.in
-
+Makefile
 /autom4te.cache
 /build_aux
 aclocal.m4

@@ -108,7 +108,7 @@ int main(){
 		sum = 0;
 		for (size_t i = 0; i < 1000; i++){
 			start = clock();	
-			darray_foo_radom_get();
+			darray_foo_get();
 			end = clock();
 			sum += end - start;
 		}
@@ -132,7 +132,7 @@ int main(){
 		sum = 0;
 		for (size_t i = 0; i < 1000; i++){
 			start = clock();	
-			darray_foo_radom_get();
+			darray_foo_get();
 			end = clock();
 			sum += end - start;
 		}
