@@ -140,7 +140,7 @@ int main(){
 		printf("get %lf\n", (double) sum / CLOCKS_PER_SEC);
 		*/
 	}
-	/*else if (vec_size == -1) {
+	else if (vec_size == -1) {
 		src = malloc(sizeof(int));
 		*src = 123456;
 		for (int j = 0; j < 1000; j++) {
@@ -150,6 +150,7 @@ int main(){
 			sum += end - start;
 		}
 		printf("set %lf\n", (double) sum / CLOCKS_PER_SEC);
+		/*
 		foo_set();
 		sum = 0;
 		for (size_t i = 0; i < 1000; i++){
@@ -159,7 +160,8 @@ int main(){
 			sum += end - start;
 		}
 		printf("get %lf\n", (double) sum / CLOCKS_PER_SEC);
-	}*/
+		*/
+	}
 	else {
 		vec_size = -vec_size;
 		src = malloc(vec_size * sizeof(int));
