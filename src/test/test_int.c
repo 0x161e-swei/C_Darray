@@ -79,12 +79,26 @@ void foo_radom_get() {
 	}
 }
 
-int main(){
+int main(int argc, char const *argv[]){
+	if (argc != 2) return 0;
 
+	int len = strlen(argv[1]);
+	int i;
+	
+	if (argv[1][0] == '-')
+		i = 1;
+	else
+		i = 0;
+
+	vec_size = 0;
+
+	while(i < len) {
+		vec_size = vec_size * 10 + argv[1][i] - '0';
+		i++;
+	}
+
+	vec_size = argv[1][0] == '-'? -vec_size: vec_size;
 	DataType dtype = INT;
-	
-	scanf("%d", &vec_size);
-	
 	
 	clock_t start, end, sum = 0;
 	srand((unsigned int)time(NULL));
