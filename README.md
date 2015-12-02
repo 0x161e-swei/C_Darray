@@ -85,7 +85,7 @@ struct _d_array {
 	const size_t element_size;
 	size_t capacity;
 	size_t length;
-	void *content;		// TODO: figure out char* or char** works better
+	void *content;		
 	void (* const get)(DArray *, size_t, PDataType *);
 	void (* const set)(DArray *, size_t, void *);
 };
@@ -94,7 +94,7 @@ typedef _darray_type_declare(char)		DArray_CHAR;
 typedef _darray_type_declare(int)		DArray_INT;
 typedef _darray_type_declare(long)		DArray_LONG;
 typedef _darray_type_declare(float)		DArray_FLOAT;
-typedef _darray_type_declare(double)		DArray_DOUBLE;
-typedef _darray_type_declare(size_t)		DArray_SIZET;
+typedef _darray_type_declare(double)	DArray_DOUBLE;
+typedef _darray_type_declare(size_t)	DArray_SIZET;
 
 ```
