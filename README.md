@@ -33,7 +33,7 @@ darray_vec_push(arr_int, src, vec_size);
 ### Get by index
 ``` c
 int index = 10;
-PDataType pres;j
+PDataType pres;
 arr_int->get(arr_int, index, &pres);
 printf("%d\n", *(pres.pint));
 
